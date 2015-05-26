@@ -16,6 +16,15 @@
 *.pidb
 *.booproj
 *.apk
+*.mp4
+*.png
+*.PNG
+*.mp3
+*.mp4
+*.wav
+*.aif
+*.mov
+*.m4a
 
 # Unity3D generated meta files
 *.pidb.meta
