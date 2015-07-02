@@ -12,10 +12,17 @@ public class Tracer : MonoBehaviour {
 	public GameObject letter;
 	public GameObject lineCanvas;
 	TraceTrigger nextTrigger;
+	bool inLines = false;
 
-	
+
+	void Start () {
+
+	}
+
+
 	// Update is called once per frame
 	void Update () {
+
 		// reset on touch release
 		if (Input.GetMouseButtonUp (0)) {
 			imageRectTransform.sizeDelta = new Vector2 (0, 0);
