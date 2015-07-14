@@ -10,12 +10,14 @@ public class TraceStepHandler : MonoBehaviour {
 	private int counter = 0;
 	private AnimateArrow currentStep;
 	private GameObject finalStep;
+	private bool fadeTrigger = true;
 	//public GameObject letter;
 
 	// Use this for initialization
 	void Start () {
 		counter = 0;
 		complete = false;
+// 		StartCoroutine (FadeTo (0f, 1.5f));
 //		finalStep = steps [steps.Length];
 	
 	}
@@ -46,5 +48,5 @@ public class TraceStepHandler : MonoBehaviour {
 				}
 			}
 		}
-	}
+	}	
 }

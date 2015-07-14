@@ -18,13 +18,14 @@ public class AnimateArrow : MonoBehaviour {
 	public int moreCompensation;
 	private int ogCompensation;
 	private List<GameObject> arrows = new List<GameObject>();
+	private bool stop;
 	//public float fader;
 
 	// Use this for initialization
 	void Start () {
 		ogCompensation = compensation;
 		//set original compensation so animation resets, determine itween path params
-		iTween.MoveTo(arrow, iTween.Hash("path",iTweenPath.GetPath(pathName),"lookTime", 0.2,"moveToPath", false,"easetype",  "linear", "looptype", "loop", "lookahead", 0.0001, "onComplete", "ClearArrows", "oncompletetarget", this.gameObject,"time",animationTime));
+		iTween.MoveTo(arrow, iTween.Hash("path",iTweenPath.GetPath(pathName),"lookTime", 0.2,"moveToPath", false,"easetype",  "linear", "looptype", "none", "lookahead", 0.0001, "onComplete", "ClearArrows", "oncompletetarget", this.gameObject,"time",animationTime));
 		//p = iTweenPath.GetPath("pathroll");
 	}
 	
@@ -46,26 +47,34 @@ public class AnimateArrow : MonoBehaviour {
 		timeCounter += Time.deltaTime;
 		if (timeCounter >= trailTime)
 		{
+			if (!stop) {
 			// create a new arrow prefab in a fading trail
-			timeCounter = 0;
-			GameObject f = Instantiate(fader, new Vector3(arrow.transform.position.x, arrow.transform.position.y, arrow.transform.position.z + 1), arrow.transform.rotation) as GameObject;
-			SpriteRenderer faderSprite = f.GetComponent<SpriteRenderer>();
-			faderSprite.sprite = arrow.GetComponent<SpriteRenderer>().sprite;
-			arrows.Add(f);
-			f.GetComponent<FadeMaterials>().FadeOut();
-			//further adjust for the curve if necessary based on each step
-			compensation = compensation + moreCompensation ;
+				timeCounter = 0;
+				GameObject f = Instantiate(fader, new Vector3(arrow.transform.position.x, arrow.transform.position.y, arrow.transform.position.z + 1), arrow.transform.rotation) as GameObject;
+				SpriteRenderer faderSprite = f.GetComponent<SpriteRenderer>();
+				faderSprite.sprite = arrow.GetComponent<SpriteRenderer>().sprite;
+				arrows.Add(f);
+				f.GetComponent<FadeMaterials>().FadeOut();
+				//further adjust for the curve if necessary based on each step
+				compensation = compensation + moreCompensation ;
+			}
+			else if (stop) {
+				
+			}
 		}
 	}
 
 	public void ClearArrows () {
+		arrow.gameObject.SetActive(false);
 		// get rid of the arrows and reset arrow curve compensation
 		for (int j = 0; j < arrows.Count; j++) {
 			GameObject.Destroy(arrows[j]);
+
 			pointA.touched = false;
 			pointB.touched = false;
 			compensation = ogCompensation;
 		}
+		stop = true;
 	}
 
 //	void OnDrawGizmos()

@@ -20,10 +20,8 @@ public class TraceTrigger : MonoBehaviour {
 	}
 
 	void OnTouchDown () {
-//		Debug.Log ("ON COLLISION");
 		dot.color = touchedColor;
 		touched = true;
-
 	}
 
 	void OnTouchStay () {
