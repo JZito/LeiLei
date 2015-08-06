@@ -18,10 +18,19 @@ public class Steps : MonoBehaviour {
 	
 	}
 
+	void OnTouchDown() {
+		SkipAhead ();
+	}
+
+	void SkipAhead() {
+		Application.LoadLevel ("selection");
+	}
+
 	public IEnumerator TurnOffIntroScreen() {
-		yield return new WaitForSeconds(3);
-		selectionScreen.gameObject.SetActive (true);
-		loadingScreen.gameObject.SetActive (false);
+		yield return new WaitForSeconds(5);
+		SkipAhead ();
+//		selectionScreen.gameObject.SetActive (true);
+//		loadingScreen.gameObject.SetActive (false);
 
 	}
 }

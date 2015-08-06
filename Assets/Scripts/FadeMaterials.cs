@@ -2,18 +2,20 @@
 using System.Collections;
 
 public class FadeMaterials : MonoBehaviour {
+
+	public float fadeTime;
 	
 	public void FadeOut() {
 		iTween.ValueTo(gameObject, iTween.Hash(
 			"from", 1.0f, "to", 0.0f,
-			"time", 3f, "easetype", "linear",
+			"time", fadeTime, "easetype", "linear",
 			"onupdate", "setAlpha"));
 	}
 		               
 	public void FadeIn() {
 		iTween.ValueTo(gameObject, iTween.Hash(
 			"from", 0f, "to", 1f,
-			"time", 3f, "easetype", "linear",
+			"time", fadeTime, "easetype", "linear",
 			"onupdate", "setAlpha"));
 	}
 			               

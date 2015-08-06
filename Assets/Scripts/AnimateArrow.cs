@@ -6,11 +6,15 @@ public class AnimateArrow : MonoBehaviour {
 
 	public Vector3[] p;
 	public string pathName;
+	public GameObject pathObject;
 	public float timeCounter;
 	public float trailTime;
+	public float lookTime;
 	public int animationTime;
 	public GameObject arrow;
 	public GameObject fader;
+	public GameObject point0;
+	public GameObject point1;
 	public TraceTrigger pointA;
 	public TraceTrigger pointB;
 	public bool curve;
@@ -25,8 +29,24 @@ public class AnimateArrow : MonoBehaviour {
 	void Start () {
 		ogCompensation = compensation;
 		//set original compensation so animation resets, determine itween path params
-		iTween.MoveTo(arrow, iTween.Hash("path",iTweenPath.GetPath(pathName),"lookTime", 0.2,"moveToPath", false,"easetype",  "linear", "looptype", "none", "lookahead", 0.0001, "onComplete", "ClearArrows", "oncompletetarget", this.gameObject,"time",animationTime));
+
 		//p = iTweenPath.GetPath("pathroll");
+		StartCoroutine (PauseBriefly ());
+	}
+
+	IEnumerator PauseBriefly() {
+
+		yield return new WaitForSeconds (0.25f);
+		GetComponent<AudioSource> ().Play ();
+		point0.gameObject.SetActive (true);
+		yield return new WaitForSeconds (0.125f);
+		GetComponent<AudioSource> ().Play ();
+		point1.gameObject.SetActive (true);
+
+		yield return new WaitForSeconds (0.125f);
+
+		iTween.MoveTo(arrow, iTween.Hash("path",iTweenPath.GetPath(pathName),"lookTime", lookTime,"moveToPath", false,"easetype",  "linear", "looptype", "none", "lookahead", 0.0001, "onComplete", "LastOne", "oncompletetarget", this.gameObject,"time",animationTime));
+		Debug.Log ("second paused");
 	}
 	
 	// Update is called once per frame
@@ -63,18 +83,50 @@ public class AnimateArrow : MonoBehaviour {
 			}
 		}
 	}
-
-	public void ClearArrows () {
-		arrow.gameObject.SetActive(false);
-		// get rid of the arrows and reset arrow curve compensation
+	IEnumerator LoopIt() {
+		yield return new WaitForSeconds (5f);
 		for (int j = 0; j < arrows.Count; j++) {
 			GameObject.Destroy(arrows[j]);
-
-			pointA.touched = false;
-			pointB.touched = false;
+			
+			//			po  qintA.touched = false;
+			//			pointB.touched = false;
 			compensation = ogCompensation;
 		}
+		//arrow.gameObject.SetActive (true);
+
+		iTween.MoveTo (arrow, iTween.Hash ("path", iTweenPath.GetPath (pathName), "lookTime", lookTime, "moveToPath", false, "easetype", "linear", "looptype", "none", "lookahead", 0.0001, "onComplete", "LastOne", "oncompletetarget", this.gameObject, "time", animationTime));
+		stop = false;
+	}
+
+	IEnumerator ClearIt() {
+
+		iTween.Stop (this.gameObject, includechildren: true);
+//		
+		yield return new WaitForSeconds (2f);
+		// get rid of the arrows and reset arrow curve compensation
+		
+		for (int j = 0; j < arrows.Count; j++) {
+			GameObject.Destroy(arrows[j]);
+			
+			//			po  qintA.touched = false;
+			//			pointB.touched = false;
+			compensation = ogCompensation;
+		}
+		//stop = true;
+	}
+	public void ClearArrows () {
+
+		point0.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+		point1.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+		arrow.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+		LastOne ();
+		StartCoroutine (ClearIt ());
+	}
+
+	public void LastOne() {
+		//arrow.gameObject.SetActive(false);
 		stop = true;
+		//StartCoroutine (LoopIt ());
 	}
 
 //	void OnDrawGizmos()
