@@ -12,7 +12,6 @@ public class TraceStepHandler : MonoBehaviour {
 	private int counter = 0;
 	private AnimateArrow currentStep;
 	private GameObject finalStep;
-	private bool fadeTrigger = true;
 	private bool aTouched = false;
 	private bool bTouched = false;
 	//public GameObject trail;
@@ -122,15 +121,16 @@ public class TraceStepHandler : MonoBehaviour {
 		int span = PlayerPrefs.GetInt ("Spanish");
 		int idNum = PlayerPrefs.GetInt ("letterInt");
 		if (span == 1) {
-			Debug.Log ("english");
+			//Debug.Log ("english");
 			soundArray.GetComponent<AudioSource>().clip = soundArray.GetComponent<SoundArray>().englishSounds[idNum];
 		}
 		else if (span == 0) {
-			Debug.Log ("spanish");
+			//Debug.Log ("spanish");
 			soundArray.GetComponent<AudioSource>().clip = soundArray.GetComponent<SoundArray>().spanishSounds[idNum];
 		}
+		yield return new WaitForSeconds (.1f);
 		soundArray.GetComponent<AudioSource> ().Play ();
-		yield return new WaitForSeconds (soundArray.GetComponent<AudioSource>().clip.length + .5f);
+		yield return null;
 		
 		
 	}
