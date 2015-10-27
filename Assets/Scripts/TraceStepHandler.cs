@@ -89,7 +89,7 @@ public class TraceStepHandler : MonoBehaviour {
 //
 //		}
 		if (aTouched && bTouched) {
-			Debug.Log ("a and b, finished");
+//			Debug.Log ("a and b, finished");
 			currentStep.ClearArrows();
 			lineRenderer.SetVertexCount(0);
 			i = 0;
@@ -111,7 +111,7 @@ public class TraceStepHandler : MonoBehaviour {
 		//	trail.GetComponent<Renderer>().enabled = true;
 			aTouched = true;
 			if (currentStep.pointB.touched) {
-				Debug.Log("btouched");
+		//		Debug.Log("btouched");
 				bTouched= true;
 			}
 		}

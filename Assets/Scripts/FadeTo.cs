@@ -3,7 +3,6 @@ using System.Collections;
 
 public class FadeTo : MonoBehaviour {
 
-	public bool fadeTrigger;
 	public bool zoomIn;
 	public bool zoomBack = false;
 	public bool fadeFinish = false;
@@ -32,25 +31,28 @@ public class FadeTo : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (zoomIn) {
+			//at the beginning, zoom from zero to target scale until curscale  = target, a little too big
+			//todo: switch to ease?
 			curScale = Mathf.MoveTowards (curScale, targetScale, Time.deltaTime * shrinkSpeed);
 			gameObject.transform.localScale = new Vector3 (curScale, curScale, curScale);
 			if (curScale >= targetScale) {
 				zoomIn=false;
 				zoomBack = true;
-				Debug.Log("zoom");
+//				Debug.Log("zoom");
 			}		
 		}
 		else if (zoomBack){
-			Debug.Log("boo");
+			//now shrink it back down just slightly
+//			Debug.Log("boo");
 //			if (curScale <= targetScale) {
 				curScale = Mathf.MoveTowards (curScale, targetScale3, Time.deltaTime * shrinkSpeed);
 				gameObject.transform.localScale = new Vector3 (curScale, curScale, curScale);
+			//and once it has shrank to the appropriate, final size, fade from textured letter to solid letter
 			if (curScale <= targetScale3) {
-				Debug.Log("yooo");
+//				Debug.Log("yooo");
 				StartCoroutine (Fade(0, .5f));
 				//zoomIn = false;
 				zoomBack = false;
-				fadeTrigger = true;
 			}	
 		}
 		else if (fadeFinish) {
@@ -61,7 +63,7 @@ public class FadeTo : MonoBehaviour {
 
 	public IEnumerator FadeEnd(float aValue, float aTime)
 	{
-		print ("started");
+//		print ("started");
 		int languageTicker = PlayerPrefs.GetInt ("Spanish");
 		if (languageTicker == 0) {
 			window.GetComponent<SpriteRenderer>().sprite = completeSpriteSpanish;	
@@ -81,9 +83,9 @@ public class FadeTo : MonoBehaviour {
 
 	public IEnumerator Fade(float aValue, float aTime)
 	{
-		print ("started");
+//		print ("started");
 		//if (fadeTrigger) {
-		print ("continued");
+//		print ("continued");
 		GameObject sl = Instantiate(solidLetter, solidLetter.transform.position, solidLetter.transform.rotation) as GameObject;
 		sl.gameObject.SetActive (true);
 		sl.gameObject.transform.localScale = new Vector3(targetScale2, targetScale2, 0);

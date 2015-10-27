@@ -59,7 +59,7 @@ public class SelectAndShrink : MonoBehaviour {
 		}
 	}
 
-	void OnTouchDown () {
+	public void OnTouchDown () {
 		StartCoroutine ( PlaySound () );
 	
 	}

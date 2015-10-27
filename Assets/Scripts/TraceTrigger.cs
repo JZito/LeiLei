@@ -45,6 +45,7 @@ public class TraceTrigger : MonoBehaviour {
 		if (pointA) {
 		//	dot.color = touchedColor;
 			touched = true;
+			Debug.Log ("touched");
 		}
 	}
 
